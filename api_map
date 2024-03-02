@@ -1,0 +1,50 @@
+after=2009-01-01T00:00:00&before=2010-01-01T00:00:00&orderby=date&order=desc&page=1&_embed=true&_envelope=true
+
+
+
+
+
+https://techcrunch.com/wp-json/wp/v2/tags
+id
+count
+name
+slug
+link
+=================
+https://techcrunch.com/wp-json/wp/v2/categories
+
+id int
+count int
+description
+link
+name
+slug
+parent int
+==================
+https://techcrunch.com/wp-json/wp/v2/posts?per_page=100&page=1&orderby=date&order=desc&_embed=true&_envelope=true
+id
+date
+link
+title>rendered
+content>rendered
+_embedded>authors [{id,name,link,cbDescription,twitter},{}]
+authors* [ids*] primary[0]
+categories* [ids*] primary[0]
+tc_regions_tax
+featured_media id () https://techcrunch.com/wp-json/wp/v2/media/
+==================
+https://techcrunch.com/wp-json/wp/v2/users?per_page=100&page=1&orderby=date&order=desc
+name
+link
+cbDescription
+twitter
+=====================
+https://techcrunch.com/wp-json/wp/v2/tc_regions_tax
+id	577037495
+count	774
+description	"The latest startup and t…s coming out of Africa."
+link	"https://techcrunch.com/region/africa/"
+name	"Africa"
+slug	"africa"
+taxonomy	"tc_regions_tax"
+parent
