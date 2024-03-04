@@ -7,7 +7,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # CELERY RABBIT MQ URL
-CELERY_BROKER_URL= 'amqp://user:pass@IP_ADDRESS'
+CELERY_BROKER_URL = 'amqp://user:pass@IP_ADDRESS'
 
 # https://docs.celeryq.dev/en/latest/userguide/configuration.html#conf-result-backend
 CELERY_RESULT_BACKEND = 'django-db'
