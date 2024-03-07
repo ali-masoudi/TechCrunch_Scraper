@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('scraper', '0003_remove_post_count_alter_author_link_and_more'),
     ]

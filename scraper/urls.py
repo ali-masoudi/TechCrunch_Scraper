@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import AuthorViewSet, CategoryViewSet, TagViewSet, PostViewSet, KeywordViewSet, SearchResultViewSet,start
+
+from .views import AuthorViewSet, CategoryViewSet, TagViewSet, PostViewSet, KeywordViewSet, SearchResultViewSet, start, \
+    search_post
 
 router = DefaultRouter()
 router.register(r'authors', AuthorViewSet)
@@ -12,5 +14,6 @@ router.register(r'search-results', SearchResultViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('start/',start , name='start')
+    path('start/', start, name='start'),
+    path('search/', search_post, name='search_posts'),
 ]

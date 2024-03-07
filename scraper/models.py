@@ -39,7 +39,7 @@ class Author(BaseEntity):
     facebook = models.URLField(verbose_name='Facebook', null=True, blank=True, )
     linkedin = models.URLField(verbose_name='linkedin', null=True, blank=True, )
     crunchbase = models.URLField(verbose_name='CrunchBase', null=True, blank=True)
-    cbDescription = models.TextField(verbose_name="Description", null=True, blank=True )
+    cbDescription = models.TextField(verbose_name="Description", null=True, blank=True)
     # Exclude These Fileds
     original_creation_date = None
     original_modification_date = None
@@ -82,7 +82,7 @@ class Tag(BaseEntity):
 class Post(BaseEntity):
     title = models.CharField(verbose_name='Title', max_length=500)
     html_content = models.TextField(verbose_name='HTML Content', )
-    authors = models.ManyToManyField(Author, related_name='posts',null=True,blank=True)
+    authors = models.ManyToManyField(Author, related_name='posts', null=True, blank=True)
     categories = models.ManyToManyField(Category, related_name='posts')
     tags = models.ManyToManyField(Tag, related_name='posts')
     # primary_author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name='primary_posts')

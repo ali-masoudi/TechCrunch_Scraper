@@ -1,5 +1,8 @@
-import requests
 from html import unescape
+from urllib.parse import quote
+
+import requests
+
 from .models import *
 
 
@@ -10,7 +13,8 @@ class TechCrunchCrawler(object):
                  category_route='categories',
                  tag_route='tags',
                  post_route='posts',
-                 search_route='search', _embed=False):
+                 search_route='search',
+                 embed=False):
         self.base_url = base_url
         self.main_api_route = main_api_route
         self.author_route = author_route
@@ -18,7 +22,7 @@ class TechCrunchCrawler(object):
         self.tag_route = tag_route
         self.post_route = post_route
         self.search_route = search_route
-        self._embed = _embed
+        self.embed = embed
 
     def get_author(self, author_id):
         response = self.make_request(self.author_route, author_id)
@@ -120,12 +124,34 @@ class TechCrunchCrawler(object):
 
     def make_request(self, route, id=''):
         response = requests.get(
-            f'{self.base_url}/{self.main_api_route}/{route}/{id}?&_embed={self._embed}&per_page=100')
+            f'{self.base_url}/{self.main_api_route}/{route}/{id}?&_embed={self.embed}&per_page=100')
         return response
 
+
     def get_posts(self):
+        #last_post_id = Post.objects.latest('original_id').original_id if Post.objects.exists() else 0
         posts = self.make_request(self.post_route).json()
         print(len(posts))
         for post in posts:
             print(post['id'])
+            # if post['id'] <= last_post_id:
+            #     break
             self.get_post(post['id'])
+
+    def search_post(self, query: str):
+        url_param_formatted_string = quote(query)
+        search_url = f'{self.base_url}/{self.main_api_route}/{self.search_route}?search={url_param_formatted_string}&type=post&_embed={self.embed}&per_page=100'
+        response = requests.get(search_url)
+        response.raise_for_status()
+        keyword, created = Keyword.objects.get_or_create(keyword=query)
+        max_pages = int(response.headers.get('x-wp-totalpages'))
+        max_item = int(response.headers.get('x-wp-total'))
+        if max_item > 0:
+            for page in range(1, max_pages):
+                response = requests.head(search_url + f"&page={page}&_envelope=false")
+                for post in response.json():
+                    post, created = self.get_post(post['id'])
+                    SearchResult.objects.create(post=post, keyword=keyword)
+        else:
+            SearchResult.objects.create(keyword=keyword)
+        return "Search Complete"

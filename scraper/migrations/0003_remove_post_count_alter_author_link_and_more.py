@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('scraper', '0002_remove_author_twitter_id_author_twitter'),
     ]
